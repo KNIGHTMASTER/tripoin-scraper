@@ -14,22 +14,40 @@ public class MetaElementDTO implements Serializable {
      */
     private static final long serialVersionUID = 4251796871692342878L;
 
-    private String description;
-    private String keyWord;
+    private String name;
+    private String content;
+    private String httpHeader;
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getKeyWord() {
-        return keyWord;
+    public String getContent() {
+        return content;
     }
 
-    public void setKeyWord(String keyWord) {
-        this.keyWord = keyWord;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getHttpHeader() {
+        return httpHeader;
+    }
+
+    public void setHttpHeader(String httpHeader) {
+        this.httpHeader = httpHeader;
+    }
+
+    @Override
+    public String toString() {
+        return "MetaElementDTO{" +
+                "name='" + name + '\'' +
+                ", content='" + content + '\'' +
+                ", httpHeader='" + httpHeader + '\'' +
+                '}';
     }
 }

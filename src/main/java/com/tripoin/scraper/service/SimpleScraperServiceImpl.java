@@ -1,7 +1,9 @@
 package com.tripoin.scraper.service;
 
+import com.tripoin.scraper.ITripoinScraperConstant.Attribute.HyperLink;
+import com.tripoin.scraper.ITripoinScraperConstant.Attribute.Image;
+import com.tripoin.scraper.ITripoinScraperConstant.Attribute.Meta;
 import com.tripoin.scraper.ITripoinScraperConstant.HTMLElement;
-import com.tripoin.scraper.ITripoinScraperConstant.HyperLinkAttribute;
 import com.tripoin.scraper.dto.FormInputElementDTO;
 import com.tripoin.scraper.dto.ImageElementDTO;
 import com.tripoin.scraper.dto.LinkElementDTO;
@@ -58,29 +60,59 @@ public class SimpleScraperServiceImpl implements ISimpleScraperService, ICompone
             for(Element element : links) {
                 LinkElementDTO linkElementDTO = new LinkElementDTO();
                 linkElementDTO.setText(element.text());
-                linkElementDTO.setUrl(element.attr(HyperLinkAttribute.URL));
-                linkElementDTO.setFileName(element.attr(HyperLinkAttribute.FILENAME));
-                linkElementDTO.setLanguageCode(element.attr(HyperLinkAttribute.LANGUAGE_CODE));
-                linkElementDTO.setMediaQuery(element.attr(HyperLinkAttribute.MEDIA_QUERY));
-                linkElementDTO.setRelationship(element.attr(HyperLinkAttribute.RELATIONSHIP));
-                linkElementDTO.setTarget(element.attr(HyperLinkAttribute.TARGET));
-                linkElementDTO.setType(element.attr(HyperLinkAttribute.MEDIA_TYPE));
+                linkElementDTO.setUrl(element.attr(HyperLink.URL));
+                linkElementDTO.setFileName(element.attr(HyperLink.FILENAME));
+                linkElementDTO.setLanguageCode(element.attr(HyperLink.LANGUAGE_CODE));
+                linkElementDTO.setMediaQuery(element.attr(HyperLink.MEDIA_QUERY));
+                linkElementDTO.setRelationship(element.attr(HyperLink.RELATIONSHIP));
+                linkElementDTO.setTarget(element.attr(HyperLink.TARGET));
+                linkElementDTO.setType(element.attr(HyperLink.MEDIA_TYPE));
+
                 linkElementDTOs.add(linkElementDTO);
             }
-            return linkElementDTOs;
-        }else {
-            return null;
         }
+        return linkElementDTOs;
     }
 
     @Override
     public List<ImageElementDTO> getImageElements() {
-        return null;
+        Elements images = document.select(HTMLElement.IMAGE);
+        List<ImageElementDTO> imageElementDTOs = new ArrayList<>();
+        if (images.size() > 0){
+            for (Element element : images) {
+                ImageElementDTO imageElementDTO = new ImageElementDTO();
+                imageElementDTO.setSource(element.attr(Image.SOURCE));
+                imageElementDTO.setHeight(element.attr(Image.HEIGHT));
+                imageElementDTO.setWidth(element.attr(Image.WIDTH));
+                imageElementDTO.setAlt(element.attr(Image.ALTERNATE));
+                imageElementDTO.setCrossOrigin(element.attr(Image.CROSSORIGIN));
+                imageElementDTO.setImageMap(element.attr(Image.IMAGE_MAP));
+                imageElementDTO.setUrlDetailDescription(element.attr(Image.URL_DETAIL_DESCRIPTION));
+                imageElementDTO.setSizes(element.attr(Image.SIZES));
+                imageElementDTO.setSourceSet(element.attr(Image.SOURCE_SET));
+                imageElementDTO.setUseMap(element.attr(Image.USEMAP));
+
+                imageElementDTOs.add(imageElementDTO);
+            }
+        }
+        return imageElementDTOs;
     }
 
     @Override
     public List<MetaElementDTO> getMetaElements() {
-        return null;
+        Elements metaElements = document.select(HTMLElement.META);
+        List<MetaElementDTO> metaElementDTOs = new ArrayList<>();
+        if (metaElements.size() > 0){
+            for (Element element : metaElements) {
+                MetaElementDTO metaElementDTO = new MetaElementDTO();
+                metaElementDTO.setName(element.attr(Meta.NAME));
+                metaElementDTO.setContent(element.attr(Meta.CONTENT));
+                metaElementDTO.setHttpHeader(element.attr(Meta.HTTP_HEADER));
+
+                metaElementDTOs.add(metaElementDTO);
+            }
+        }
+        return metaElementDTOs;
     }
 
     @Override
